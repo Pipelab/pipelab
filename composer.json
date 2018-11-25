@@ -1,0 +1,19 @@
+{
+    "name": "julien731/pipelab",
+    "description": "Pipelab is the one and only sales optimization app for WordPress.",
+    "type": "project",
+    "config": {
+        "platform": {
+            "php": "5.6.0"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "5.7.0"
+    },
+    "authors": [
+        {
+            "name": "Julien Liabeuf",
+            "email": "julien@liabeuf.fr"
+        }
+    ]
+}
