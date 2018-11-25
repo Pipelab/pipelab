@@ -143,8 +143,11 @@ install_db() {
 		fi
 	fi
 
-	# create database
-	mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+	# Drop any previous database to start from fresh.
+    mysql -u $DB_USER -p$DB_PASS$EXTRA -e "DROP DATABASE IF EXISTS $DB_NAME;"
+
+	# Create database
+	mysql -u $DB_USER -p$DB_PASS$EXTRA -e "CREATE DATABASE $DB_NAME;"
 }
 
 install_wp
