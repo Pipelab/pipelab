@@ -27,7 +27,6 @@ namespace Pipelab;
  */
 class i18n {
 
-
 	/**
 	 * Load the plugin text domain for translation.
 	 *
@@ -42,7 +41,5 @@ class i18n {
 		);
 
 	}
-
-
 
 }
