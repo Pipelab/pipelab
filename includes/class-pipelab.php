@@ -90,17 +90,54 @@ class Pipelab {
 	 * @since    0.1.0
 	 */
 	private function init() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+
+		if ( defined( 'PIPELAB_VERSION' ) ) {
+			$this->version = PIPELAB_VERSION;
 		} else {
 			$this->version = '0.1.0';
 		}
+
 		$this->plugin_name = 'pipelab';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		// Before running the plugin, we make sure that the plugin can be safely loaded.
+		// If it can't, we abort.
+		if ( false === $this->can_load() ) {
+			return;
+		}
+
+		// Run the plugin loader.
+		$this->loader->run();
+
+	}
+
+	/**
+	 * Run a series of checks to confirm that the plugin can be loaded.
+	 *
+	 * This plugin requires specific WordPress and PHP versions as well as a number of dependencies. This method checks
+	 * for all the versions and dependencies requirements and returns the final verdict: is everything the plugin needs
+	 * present or not?
+	 *
+	 * In addition to running the checks, the method also register error notifications to inform the user of what
+	 * requirements aren't fulfilled.
+	 *
+	 * @since 0.2.0
+	 * @return bool Returns true if the plugin can be loaded, false otherwise.
+	 */
+	private function can_load() {
+
+		$can_load = true;
+
+		// Make sure that the plugin.php file is loaded. It is where is_plugin_active() lives.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		return $can_load;
 
 	}
 
