@@ -31,9 +31,9 @@ class PluginActivationTests extends WP_UnitTestCase {
 		$admin->set_role( 'administrator' );
 
 		// Check for the right capabilities.
-		$this->assertTrue( $admin->has_cap( 'create_contact' ), 'The admin role does not have the custom capabilities' );
-		$this->assertTrue( $admin->has_cap( 'create_account' ), 'The admin role does not have the custom capabilities' );
-		$this->assertTrue( $admin->has_cap( 'create_deal' ), 'The admin role does not have the custom capabilities' );
+		$this->assertTrue( $admin->has_cap( 'create_contact' ), 'The admin cannot create contacts' );
+		$this->assertTrue( $admin->has_cap( 'create_account' ), 'The admin cannot create accounts' );
+		$this->assertTrue( $admin->has_cap( 'create_deal' ), 'The admin cannot create deals' );
 
 	}
 
@@ -47,9 +47,9 @@ class PluginActivationTests extends WP_UnitTestCase {
 		$manager->set_role( 'pipelab_manager' );
 
 		// Check for the right capabilities.
-		$this->assertTrue( $manager->has_cap( 'create_contact' ), 'The manager role does not have the custom capabilities' );
-		$this->assertTrue( $manager->has_cap( 'create_account' ), 'The manager role does not have the custom capabilities' );
-		$this->assertTrue( $manager->has_cap( 'create_deal' ), 'The manager role does not have the custom capabilities' );
+		$this->assertTrue( $manager->has_cap( 'create_contact' ), 'The manager cannot create contacts' );
+		$this->assertTrue( $manager->has_cap( 'create_account' ), 'The manager cannot create accounts' );
+		$this->assertTrue( $manager->has_cap( 'create_deal' ), 'The manager cannot create deals' );
 
 	}
 
@@ -63,9 +63,9 @@ class PluginActivationTests extends WP_UnitTestCase {
 		$sales->set_role( 'pipelab_sales' );
 
 		// Check for the right capabilities.
-		$this->assertTrue( $sales->has_cap( 'create_contact' ), 'The sales role does not have the custom capabilities' );
-		$this->assertTrue( $sales->has_cap( 'create_account' ), 'The sales role does not have the custom capabilities' );
-		$this->assertTrue( $sales->has_cap( 'create_deal' ), 'The sales role does not have the custom capabilities' );
+		$this->assertTrue( $sales->has_cap( 'create_contact' ), 'The sales cannot create contacts' );
+		$this->assertTrue( $sales->has_cap( 'create_account' ), 'The sales cannot create accounts' );
+		$this->assertTrue( $sales->has_cap( 'create_deal' ), 'The sales cannot create deals' );
 	}
 
 	/**
@@ -78,9 +78,9 @@ class PluginActivationTests extends WP_UnitTestCase {
 		$client->set_role( 'pipelab_client' );
 
 		// Check for the right capabilities.
-		$this->assertFalse( $client->has_cap( 'create_contact' ), 'The client role does not have the custom capabilities' );
-		$this->assertFalse( $client->has_cap( 'create_account' ), 'The client role does not have the custom capabilities' );
-		$this->assertTrue( $client->has_cap( 'create_deal' ), 'The client role does not have the custom capabilities' );
+		$this->assertFalse( $client->has_cap( 'create_contact' ), 'The client can create contacts' );
+		$this->assertFalse( $client->has_cap( 'create_account' ), 'The client can create accounts' );
+		$this->assertTrue( $client->has_cap( 'create_deal' ), 'The client cannot create deals' );
 	}
 
 }
