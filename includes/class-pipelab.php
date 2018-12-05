@@ -322,6 +322,11 @@ class Pipelab {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-public.php';
 
+		/**
+		 * A collection of helper functions for interacting with users.
+		 */
+		require_once 'functions-user.php';
+
 		$this->loader = new Pipelab\Loader();
 
 	}
