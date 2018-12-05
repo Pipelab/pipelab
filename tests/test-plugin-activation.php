@@ -43,7 +43,7 @@ class PluginActivationTests extends WP_UnitTestCase {
 	function test_manager_capabilities() {
 
 		// Create a new user and set it as agent.
-		$manager = new WP_User( 1 );
+		$manager = new WP_User();
 		$manager->set_role( 'pipelab_manager' );
 
 		// Check for the right capabilities.
@@ -59,7 +59,7 @@ class PluginActivationTests extends WP_UnitTestCase {
 	function test_sales_capabilities() {
 
 		// Create a new user and set it as ops.
-		$sales = new WP_User( 1 );
+		$sales = new WP_User();
 		$sales->set_role( 'pipelab_sales' );
 
 		// Check for the right capabilities.
@@ -74,7 +74,7 @@ class PluginActivationTests extends WP_UnitTestCase {
 	function test_client_capabilities() {
 
 		// Create a new user and set it as ops.
-		$client = new WP_User( 1 );
+		$client = new WP_User();
 		$client->set_role( 'pipelab_client' );
 
 		// Check for the right capabilities.
