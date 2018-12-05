@@ -1,4 +1,5 @@
 <?php
+namespace Pipelab;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -20,7 +21,7 @@
  * @subpackage Pipelab/admin
  * @author     Julien Liabeuf <julien@liabeuf.fr>
  */
-class Pipelab_Admin {
+class Admin {
 
 	/**
 	 * The ID of this plugin.

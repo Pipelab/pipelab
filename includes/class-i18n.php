@@ -1,4 +1,5 @@
 <?php
+namespace Pipelab;
 
 /**
  * Define the internationalization functionality
@@ -24,8 +25,7 @@
  * @subpackage Pipelab/includes
  * @author     Julien Liabeuf <julien@liabeuf.fr>
  */
-class Pipelab_i18n {
-
+class i18n {
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -41,7 +41,5 @@ class Pipelab_i18n {
 		);
 
 	}
-
-
 
 }

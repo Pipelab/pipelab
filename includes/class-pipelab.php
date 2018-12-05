@@ -44,7 +44,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      Pipelab_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Pipelab\Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -65,6 +65,33 @@ class Pipelab {
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
+
+	/**
+	 * Possible error message.
+	 *
+	 * @since 0.1.0
+	 * @var null|WP_Error
+	 */
+	protected $error = null;
+
+	/**
+	 * Minimum version of WordPress required ot run the plugin
+	 *
+	 * @since 0.1.0
+	 * @var string
+	 */
+	public $wordpress_version_required = '4.8';
+
+	/**
+	 * Required version of PHP.
+	 *
+	 * Follow WordPress latest requirements and require
+	 * PHP version 5.2 at least.
+	 *
+	 * @since 0.1.0
+	 * @var string
+	 */
+	public $php_version_required = '5.6';
 
 	/**
 	 * Instantiate and return the unique AuthPress object.
@@ -90,11 +117,13 @@ class Pipelab {
 	 * @since    0.1.0
 	 */
 	private function init() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+
+		if ( defined( 'PIPELAB_VERSION' ) ) {
+			$this->version = PIPELAB_VERSION;
 		} else {
 			$this->version = '0.1.0';
 		}
+
 		$this->plugin_name = 'pipelab';
 
 		$this->load_dependencies();
@@ -102,6 +131,154 @@ class Pipelab {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		// Before running the plugin, we make sure that the plugin can be safely loaded.
+		// If it can't, we abort.
+		if ( false === $this->can_load() ) {
+
+			// If we have any error, let's display them.
+			if ( is_a( self::$instance->error, 'WP_Error' ) ) {
+				add_action( 'admin_notices', array( self::$instance, 'display_error' ), 10, 0 );
+			}
+
+			return;
+		}
+
+		// Run the plugin loader.
+		$this->loader->run();
+
+	}
+
+	/**
+	 * Run a series of checks to confirm that the plugin can be loaded.
+	 *
+	 * This plugin requires specific WordPress and PHP versions as well as a number of dependencies. This method checks
+	 * for all the versions and dependencies requirements and returns the final verdict: is everything the plugin needs
+	 * present or not?
+	 *
+	 * In addition to running the checks, the method also register error notifications to inform the user of what
+	 * requirements aren't fulfilled.
+	 *
+	 * @since 0.2.0
+	 * @return bool Returns true if the plugin can be loaded, false otherwise.
+	 */
+	public function can_load() {
+
+		$can_load = true;
+
+		// Make sure that the plugin.php file is loaded. It is where is_plugin_active() lives.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		// Make sure the WordPress version is recent enough.
+		if ( false === self::$instance->is_wordpress_version_compatible() ) {
+			self::$instance->add_error( sprintf( __( 'Pipelab requires WordPress version %s or above. Please update WordPress to run this plugin.', 'pipelab' ), self::$instance->wordpress_version_required ) );
+			$can_load = false;
+		}
+
+		// Make sure the PHP version is recent enough.
+		if ( false === self::$instance->is_php_version_compatible() ) {
+			self::$instance->add_error( sprintf( __( 'Pipelab requires PHP version %s or above. Read more information about <a %s>how you can update</a>.', 'pipelab' ), self::$instance->php_version_required, 'a href="http://www.wpupdatephp.com/update/" target="_blank"' ) );
+			$can_load = false;
+		}
+
+		return $can_load;
+
+	}
+
+	/**
+	 * Check if the core version is compatible with this addon.
+	 *
+	 * @since  0.1.0
+	 * @return boolean
+	 */
+	public function is_wordpress_version_compatible() {
+
+		if ( empty( self::$instance->wordpress_version_required ) ) {
+			return true;
+		}
+
+		if ( version_compare( get_bloginfo( 'version' ), self::$instance->wordpress_version_required, '<' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if the version of PHP is compatible with this addon.
+	 *
+	 * @since  0.1.0
+	 * @return boolean
+	 */
+	public function is_php_version_compatible() {
+
+		/**
+		 * No version set, we assume everything is fine.
+		 */
+		if ( empty( self::$instance->php_version_required ) ) {
+			return true;
+		}
+
+		if ( version_compare( phpversion(), self::$instance->php_version_required, '<' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Add error.
+	 *
+	 * Add a new error to the WP_Error object
+	 * and create the object if it doesn't exist yet.
+	 *
+	 * @since  0.1.0
+	 *
+	 * @param string $message Error message to add
+	 *
+	 * @return void
+	 */
+	private function add_error( $message ) {
+		if ( ! is_object( $this->error ) || ! is_a( $this->error, 'WP_Error' ) ) {
+			$this->error = new WP_Error();
+		}
+		$this->error->add( 'addon_error', $message );
+	}
+
+	/**
+	 * Display error.
+	 *
+	 * Get all the error messages and display them
+	 * in the admin notices.
+	 *
+	 * @since  0.1.0
+	 * @return void
+	 */
+	public function display_error() {
+
+		if ( ! is_a( $this->error, 'WP_Error' ) ) {
+			return;
+		}
+
+		$message = self::$instance->error->get_error_messages(); ?>
+
+		<div class="error">
+			<p>
+				<?php
+				if ( count( $message ) > 1 ) {
+					echo '<ul>';
+					foreach ( $message as $msg ) {
+						echo "<li>$msg</li>";
+					}
+					echo '</li>';
+				} else {
+					echo $message[0];
+				}
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**
@@ -126,26 +303,31 @@ class Pipelab {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pipelab-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pipelab-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pipelab-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pipelab-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-public.php';
 
-		$this->loader = new Pipelab_Loader();
+		/**
+		 * A collection of helper functions for interacting with users.
+		 */
+		require_once 'functions-user.php';
+
+		$this->loader = new Pipelab\Loader();
 
 	}
 
@@ -160,7 +342,7 @@ class Pipelab {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Pipelab_i18n();
+		$plugin_i18n = new Pipelab\i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -175,7 +357,7 @@ class Pipelab {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Pipelab_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Pipelab\Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -191,7 +373,7 @@ class Pipelab {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Pipelab_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Pipelab\Pipelab_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

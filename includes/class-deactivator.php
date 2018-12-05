@@ -1,4 +1,5 @@
 <?php
+namespace Pipelab;
 
 /**
  * Fired during plugin deactivation
@@ -20,7 +21,7 @@
  * @subpackage Pipelab/includes
  * @author     Julien Liabeuf <julien@liabeuf.fr>
  */
-class Pipelab_Deactivator {
+class Deactivator {
 
 	/**
 	 * Short Description. (use period)
