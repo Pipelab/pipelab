@@ -1,4 +1,5 @@
 <?php
+namespace Pipelab;
 
 /**
  * The public-facing functionality of the plugin.

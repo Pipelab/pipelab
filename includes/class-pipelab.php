@@ -44,7 +44,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      Pipelab_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Pipelab\Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -303,26 +303,26 @@ class Pipelab {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pipelab-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pipelab-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pipelab-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pipelab-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-public.php';
 
-		$this->loader = new Pipelab_Loader();
+		$this->loader = new Pipelab\Loader();
 
 	}
 
@@ -337,7 +337,7 @@ class Pipelab {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Pipelab_i18n();
+		$plugin_i18n = new Pipelab\i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -352,7 +352,7 @@ class Pipelab {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Pipelab_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Pipelab\Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -368,7 +368,7 @@ class Pipelab {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Pipelab_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Pipelab\Pipelab_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

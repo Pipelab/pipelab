@@ -1,4 +1,5 @@
 <?php
+namespace Pipelab;
 
 /**
  * Register all actions and filters for the plugin
@@ -21,7 +22,7 @@
  * @subpackage Pipelab/includes
  * @author     Julien Liabeuf <julien@liabeuf.fr>
  */
-class Pipelab_Loader {
+class Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
