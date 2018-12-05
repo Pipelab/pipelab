@@ -1,7 +1,8 @@
 <?php
+namespace Pipelab;
 
 /**
- * Fired during plugin deactivation
+ * Fired during plugin activation
  *
  * @link       https://julienliabeuf.com
  * @since      0.1.0
@@ -11,16 +12,16 @@
  */
 
 /**
- * Fired during plugin deactivation.
+ * Fired during plugin activation.
  *
- * This class defines all code necessary to run during the plugin's deactivation.
+ * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      0.1.0
  * @package    Pipelab
  * @subpackage Pipelab/includes
  * @author     Julien Liabeuf <julien@liabeuf.fr>
  */
-class Pipelab_Deactivator {
+class Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -29,7 +30,7 @@ class Pipelab_Deactivator {
 	 *
 	 * @since    0.1.0
 	 */
-	public static function deactivate() {
+	public static function activate() {
 
 	}
 

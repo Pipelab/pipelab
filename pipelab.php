@@ -42,8 +42,8 @@ define( 'PIPELAB_VERSION', '0.1.0' );
  * This action is documented in includes/class-pipelab-activator.php
  */
 function activate_pipelab() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pipelab-activator.php';
-	Pipelab_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-activator.php';
+	Pipelab\Activator::activate();
 }
 
 /**
@@ -51,8 +51,8 @@ function activate_pipelab() {
  * This action is documented in includes/class-pipelab-deactivator.php
  */
 function deactivate_pipelab() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pipelab-deactivator.php';
-	Pipelab_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-deactivator.php';
+	Pipelab\Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_pipelab' );
