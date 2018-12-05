@@ -161,7 +161,7 @@ class Pipelab {
 	 * @since 0.2.0
 	 * @return bool Returns true if the plugin can be loaded, false otherwise.
 	 */
-	private function can_load() {
+	public function can_load() {
 
 		$can_load = true;
 
