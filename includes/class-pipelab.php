@@ -44,7 +44,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      Pipelab\Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Pipelab\Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -53,7 +53,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -62,7 +62,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -104,6 +104,7 @@ class Pipelab {
 			self::$instance = new Pipelab;
 			self::$instance->init();
 		}
+
 		return self::$instance;
 	}
 
@@ -128,6 +129,7 @@ class Pipelab {
 
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->set_constants();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -346,6 +348,17 @@ class Pipelab {
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
+	}
+
+	/**
+	 * Set the plugin constants.
+	 *
+	 * @since 0.2.0
+	 * @return void
+	 */
+	private function set_constants() {
+		define( 'PIPELAB_VERSION', '0.2.0' );
+		define( 'PIPELAB_DB_VERSION', '1' );
 	}
 
 	/**
