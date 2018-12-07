@@ -36,6 +36,8 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'PIPELAB_VERSION', '0.1.0' );
+define( 'PIPELAB_DB_VERSION', '1' );
+define( 'PIPELAB_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 /**
  * The code that runs during plugin activation.
@@ -76,4 +78,5 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pipelab.php';
 function pipelab() {
 	return Pipelab::instance();
 }
+
 pipelab();

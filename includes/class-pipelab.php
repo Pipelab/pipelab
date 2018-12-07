@@ -44,7 +44,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      Pipelab\Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Pipelab\Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -53,7 +53,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -62,7 +62,7 @@ class Pipelab {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -104,6 +104,7 @@ class Pipelab {
 			self::$instance = new Pipelab;
 			self::$instance->init();
 		}
+
 		return self::$instance;
 	}
 
@@ -128,8 +129,14 @@ class Pipelab {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		if ( is_admin() ) {
+
+			$this->load_dependencies_admin();
+			$this->define_admin_hooks();
+
+		}
 
 		// Before running the plugin, we make sure that the plugin can be safely loaded.
 		// If it can't, we abort.
@@ -312,11 +319,6 @@ class Pipelab {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-i18n.php';
 
 		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin.php';
-
-		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
@@ -328,6 +330,35 @@ class Pipelab {
 		require_once 'functions-user.php';
 
 		$this->loader = new Pipelab\Loader();
+
+	}
+
+	/**
+	 * Load the required dependencies for the admin.
+	 *
+	 * We only load the following dependencies in the administrative part of WordPress in order to avoid overloading
+	 * the frontend with unused code.
+	 *
+	 * @since    0.2.0
+	 * @access   private
+	 */
+	private function load_dependencies_admin() {
+
+		/**
+		 * The class responsible for defining all actions that occur in the admin area.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin.php';
+
+		/**
+		 * The class responsible for the upgrade routines.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-upgrade.php';
+
+		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+
+			// Register the various actions and filters used throughout the admin.
+			$this->loader->add_action( 'plugins_loaded', new Pipelab\Upgrade(), 'maybe_upgrade', 11, 0 );
+		}
 
 	}
 
@@ -404,7 +435,7 @@ class Pipelab {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     0.1.0
-	 * @return    Pipelab_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Pipelab\Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
