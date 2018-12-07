@@ -20,6 +20,15 @@ class PluginTests extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test that the plugin constant are present.
+	 */
+	function test_plugin_constants() {
+		$this->assertTrue( defined( 'PIPELAB_VERSION' ), 'Plugin version constant is missing' );
+		$this->assertTrue( defined( 'PIPELAB_DB_VERSION' ), 'Plugin database version constant is missing' );
+		$this->assertTrue( defined( 'PIPELAB_PATH' ), 'Plugin path constant is missing' );
+	}
+
+	/**
 	 * Test that the WordPress version is supported. We only test the plugin in supported environments so the test should pass.
 	 */
 	function test_wordpress_version() {
