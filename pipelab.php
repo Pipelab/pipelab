@@ -36,6 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'PIPELAB_VERSION', '0.1.0' );
+define( 'PIPELAB_DB_VERSION', '1' );
 
 /**
  * The code that runs during plugin activation.

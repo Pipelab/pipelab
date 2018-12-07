@@ -351,17 +351,6 @@ class Pipelab {
 	}
 
 	/**
-	 * Set the plugin constants.
-	 *
-	 * @since 0.2.0
-	 * @return void
-	 */
-	private function set_constants() {
-		define( 'PIPELAB_VERSION', '0.2.0' );
-		define( 'PIPELAB_DB_VERSION', '1' );
-	}
-
-	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
