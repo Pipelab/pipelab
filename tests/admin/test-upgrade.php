@@ -23,8 +23,8 @@ class UpgradeTests extends WP_UnitTestCase {
 	 */
 	public function test_needs_upgrade() {
 		update_option( 'pipelab_version', '0.0.0' );
-		$this->upgrade = new Pipelab\Upgrade();
-		$this->assertTrue( $this->upgrade->needs_upgrade() );
+		$upgrade = new Pipelab\Upgrade();
+		$this->assertTrue( $upgrade->needs_upgrade() );
 	}
 
 	/**
@@ -33,9 +33,9 @@ class UpgradeTests extends WP_UnitTestCase {
 	 */
 	public function test_does_not_need_upgrade() {
 		update_option( 'pipelab_version', PIPELAB_VERSION );
-		$this->upgrade = new Pipelab\Upgrade();
+		$upgrade = new Pipelab\Upgrade();
 
-		$this->assertFalse( $this->upgrade->needs_upgrade() );
+		$this->assertFalse( $upgrade->needs_upgrade() );
 
 	}
 
@@ -44,9 +44,9 @@ class UpgradeTests extends WP_UnitTestCase {
 	 */
 	public function test_upgrade_routine() {
 		update_option( 'pipelab_version', '0.0.1' );
-		$this->upgrade = new Pipelab\Upgrade();
+		$upgrade = new Pipelab\Upgrade();
 
-		$this->assertSame( 'upgrade', $this->upgrade->which_routine() );
+		$this->assertSame( 'upgrade', $upgrade->which_routine() );
 	}
 
 	/**
@@ -54,9 +54,9 @@ class UpgradeTests extends WP_UnitTestCase {
 	 */
 	public function test_downgrade_routing() {
 		update_option( 'pipelab_version', '10.0.0' );
-		$this->upgrade = new Pipelab\Upgrade();
+		$upgrade = new Pipelab\Upgrade();
 
-		$this->assertSame( 'downgrade', $this->upgrade->which_routine() );
+		$this->assertSame( 'downgrade', $upgrade->which_routine() );
 	}
 
 }
