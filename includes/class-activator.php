@@ -97,7 +97,7 @@ class Activator {
 
 		global $wpdb;
 
-		$table = 'pipelab_contacts';
+		$table = $wpdb->prefix . 'pipelab_contacts';
 
 		/* Prepare DB structure if not already existing */
 		if ( $wpdb->get_var( "show tables like '$table'" ) != $table ) {

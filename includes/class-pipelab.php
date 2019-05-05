@@ -325,6 +325,13 @@ class Pipelab {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-public.php';
 
 		/**
+		 * Get the contact class.
+		 *
+		 * @since 0.2.0
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-contact.php';
+
+		/**
 		 * A collection of helper functions for interacting with users.
 		 */
 		require_once 'functions-user.php';

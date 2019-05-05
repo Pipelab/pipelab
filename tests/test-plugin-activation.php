@@ -87,7 +87,7 @@ class PluginActivationTests extends WP_UnitTestCase {
 
 		global $wpdb;
 
-		$contacts = 'pipelab_contacts';
+		$contacts = $wpdb->prefix . 'pipelab_contacts';
 		$this->assertSame( $wpdb->get_var( "show tables like '$contacts'" ), $contacts );
 
 	}
