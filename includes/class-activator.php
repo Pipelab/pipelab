@@ -104,7 +104,7 @@ class Activator {
 			$sql = "CREATE TABLE $table (
 				ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 				user_id bigint(20) UNSIGNED NOT NULL,
-				owner_id bigint(20) UNSIGNED NOT NULL,
+				owner_id bigint(20) UNSIGNED,
 				gender VARCHAR(20) COLLATE utf8_general_ci NOT NULL,
 				type VARCHAR(256) COLLATE utf8_general_ci NOT NULL,
 				job_title VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
