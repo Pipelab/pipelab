@@ -83,4 +83,13 @@ class PluginActivationTests extends WP_UnitTestCase {
 		$this->assertTrue( $client->has_cap( 'create_deal' ), 'The client cannot create deals' );
 	}
 
+	function test_database() {
+
+		global $wpdb;
+
+		$contacts = 'pipelab_contacts';
+		$this->assertSame( $wpdb->get_var( "show tables like '$contacts'" ), $contacts );
+
+	}
+
 }
