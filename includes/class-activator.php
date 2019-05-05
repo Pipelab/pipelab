@@ -102,10 +102,11 @@ class Activator {
 		/* Prepare DB structure if not already existing */
 		if ( $wpdb->get_var( "show tables like '$table'" ) != $table ) {
 			$sql = "CREATE TABLE $table (
-				contact_id mediumint(9) NOT NULL AUTO_INCREMENT,
-				owner_id mediumint(9),
+				ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				user_id bigint(20) UNSIGNED NOT NULL,
+				owner_id bigint(20) UNSIGNED NOT NULL,
 				gender VARCHAR(20) COLLATE utf8_general_ci NOT NULL,
-				type VARCHAR(20) COLLATE utf8_general_ci NOT NULL,
+				type VARCHAR(256) COLLATE utf8_general_ci NOT NULL,
 				job_title VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
 				mobile_number VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
 				address VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
@@ -115,7 +116,9 @@ class Activator {
 				source VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
 				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				modified_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-				UNIQUE KEY contact_id (contact_id)
+				UNIQUE KEY ID (ID),
+				FOREIGN KEY (owner_id) REFERENCES $table(ID),
+				FOREIGN KEY (user_id) REFERENCES $wpdb->users(id)
 				);";
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
