@@ -15,6 +15,7 @@ variables:
 
 before_script:
 # Install git, the php image doesn't have installed.
+- apt-get update -yqq
 - apt-get install git -yqq
 
 # Install the required packages for the running CI tests.
