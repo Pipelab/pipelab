@@ -29,8 +29,6 @@ function pipelab_get_user_roles( $role = '' ) {
 	// Load all the user roles.
 	require( 'user-roles.php' );
 
-	global $pipelab_user_roles;
-
 	// Allow for customizing the roles and capabilities with a filter.
 	$roles = apply_filters( 'pipelab_user_roles', $pipelab_user_roles );
 
