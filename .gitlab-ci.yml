@@ -14,6 +14,15 @@ variables:
   WP_MULTISITE: "0"
 
 before_script:
+# Install git, the php image doesn't have installed.
+- apt-get update -yqq
+- apt-get install git -yqq
+
+# Install the required packages for the running CI tests.
+- apt-get -yqqf install zip unzip wget subversion mysql-client libmcrypt-dev --fix-missing
+
+# Install ssh-agent for deployment.
+- 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
 
 # Install mysql driver
 - docker-php-ext-install mysqli pdo_mysql mbstring
