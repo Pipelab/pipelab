@@ -14,28 +14,28 @@ cache:
 
 env:
   global:
-  - MYSQL_DATABASE: wordpress_tests
-  - MYSQL_ROOT_PASSWORD: mysql
-  - WP_VERSION: latest
-  - WP_MULTISITE: "0"
-  
-  matrix:
-    include:
-      - php: 7.2
-        env: WP_VERSION=latest
-      - php: 7.1
-        env: WP_VERSION=latest
-      - php: 7.0
-        env: WP_VERSION=latest
-      - php: 5.6
-        env: WP_VERSION=latest
-      - php: 5.6
-        env: WP_VERSION=trunk
-      - php: 5.6
-        env: WP_TRAVISCI=phpcs
-      - php: 5.3
-        env: WP_VERSION=latest
-        dist: precise
+    - MYSQL_DATABASE: wordpress_tests
+    - MYSQL_ROOT_PASSWORD: mysql
+    - WP_VERSION: latest
+    - WP_MULTISITE: "0"
+    
+matrix:
+  include:
+    - php: 7.2
+      env: WP_VERSION=latest
+    - php: 7.1
+      env: WP_VERSION=latest
+    - php: 7.0
+      env: WP_VERSION=latest
+    - php: 5.6
+      env: WP_VERSION=latest
+    - php: 5.6
+      env: WP_VERSION=trunk
+    - php: 5.6
+      env: WP_TRAVISCI=phpcs
+    - php: 5.3
+      env: WP_VERSION=latest
+      dist: precise
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
