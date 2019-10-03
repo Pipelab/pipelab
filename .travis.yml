@@ -8,6 +8,9 @@ notifications:
     on_success: never
     on_failure: change
 
+services:
+  - mysql
+
 cache:
   directories:
     - $HOME/.composer/cache
