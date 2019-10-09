@@ -354,6 +354,11 @@ class Pipelab {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-upgrade.php';
 
+		/**
+		 * The menu-related functions.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/functions-menu.php';
+
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 
 			// Register the various actions and filters used throughout the admin.
