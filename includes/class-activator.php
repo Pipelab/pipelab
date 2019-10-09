@@ -35,6 +35,9 @@ class Activator {
 
 		// Add the new capabilities to administrators.
 		self::add_admin_capabilities();
+
+		// Create the custom database tables.
+		self::create_contacts_table();
 	}
 
 	/**
@@ -72,6 +75,55 @@ class Activator {
 			$admin->add_cap( $capability, $permission );
 		}
 
+	}
+
+	/**
+	 * Create the custom database tables required.
+	 *
+	 * @since 0.2.0
+	 * @reutn void
+	 */
+	public static function create_database() {
+		self::create_contacts_table();
+	}
+
+	/**
+	 * Create the contacts table.
+	 *
+	 * @since 0.2.0
+	 * @return void
+	 */
+	protected static function create_contacts_table() {
+
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'pipelab_contacts';
+
+		/* Prepare DB structure if not already existing */
+		if ( $wpdb->get_var( "show tables like '$table'" ) != $table ) {
+			$sql = "CREATE TABLE $table (
+				ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				user_id bigint(20) UNSIGNED NOT NULL,
+				owner_id bigint(20) UNSIGNED,
+				gender VARCHAR(20) COLLATE utf8_general_ci NOT NULL,
+				type VARCHAR(256) COLLATE utf8_general_ci NOT NULL,
+				job_title VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				mobile_number VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				address VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				city VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				country VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				zipcode VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				source VARCHAR(256) DEFAULT '' COLLATE utf8_general_ci NOT NULL,
+				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				modified_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				UNIQUE KEY ID (ID),
+				FOREIGN KEY (owner_id) REFERENCES $table(ID),
+				FOREIGN KEY (user_id) REFERENCES $wpdb->users(id)
+				);";
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
+		}
 	}
 
 }
