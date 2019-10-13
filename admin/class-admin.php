@@ -42,6 +42,14 @@ class Admin {
 	private $version;
 
 	/**
+	 * The Contacts_List object instance.
+	 *
+	 * @since 0.2.0
+	 * @var Contacts_List
+	 */
+	public $contacts_list;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
@@ -99,6 +107,72 @@ class Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pipelab-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Load plugin pages and screen options.
+	 *
+	 * @since 0.2.0
+	 * @retun void
+	 */
+	public function load_plugin_pages() {
+		add_filter( 'set-screen-option', [ $this, 'set_screen' ], 10, 3 );
+		add_action( 'admin_menu', [ $this, 'plugin_menu' ] );
+	}
+
+	/**
+	 * Set screen options.
+	 *
+	 * @since 0.2.0
+	 * @param $status
+	 * @param $option
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public static function set_screen( $status, $option, $value ) {
+		return $value;
+	}
+
+	/**
+	 * Register the plugin menus.
+	 *
+	 * @since 0.2.0
+	 * @return void
+	 */
+	public function plugin_menu() {
+
+		$hook = add_menu_page(
+			'Sitepoint WP_List_Table Example',
+			'SP WP_List_Table',
+			'manage_options',
+			'wp_list_table_class',
+			'pipelab_contacts_page'
+		);
+
+		add_action( "load-$hook", [ $this, 'contacts_list_screen_option' ] );
+
+	}
+
+	/**
+	 * Screen options for the contacts list.
+	 *
+	 * This is loaded via a hook defined in Admin::plugin_menu().
+	 *
+	 * @since 0.2.0
+	 */
+	public function contacts_list_screen_option() {
+
+		$option = 'per_page';
+		$args   = [
+			'label'   => __( 'Contacts', 'pipelab' ),
+			'default' => 25,
+			'option'  => 'contacts_per_page'
+		];
+
+		add_screen_option( $option, $args );
+
+		$this->contacts_list = new Contacts_List();
 	}
 
 }
