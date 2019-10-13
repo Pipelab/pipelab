@@ -370,11 +370,6 @@ class Pipelab {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-upgrade.php';
 
 		/**
-		 * The menu-related functions.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/functions-menu.php';
-
-		/**
 		 * The contacts list class.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-contacts-list.php';
