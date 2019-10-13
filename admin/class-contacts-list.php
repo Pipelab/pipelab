@@ -133,6 +133,8 @@ class Contacts_List extends \WP_List_Table {
 				return $contact->get_first_name();
 			case 'last_name':
 				return $contact->get_last_name();
+			case 'type':
+				return $contact->get_type();
 			default:
 				return print_r( $item, true ); // Show the whole array for troubleshooting purposes.
 		}
