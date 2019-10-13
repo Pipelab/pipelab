@@ -159,5 +159,19 @@ class Contact {
 
 		return $this->last_name;
 	}
-	
+
+	/**
+	 * Get the contact type.
+	 *
+	 * @since 0.2.0
+	 * @return string
+	 */
+	public function get_type() {
+
+		$contact_types = apply_filters( 'pipelab_contact_types', [ 'lead' => __( 'Lead', 'pipelab' ), 'client' => __( 'Client', 'pipelab' ) ] );
+
+		return array_key_exists( $this->contact->type, $contact_types ) ? $contact_types[$this->contact->type] : '';
+
+	}
+
 }
