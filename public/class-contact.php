@@ -90,7 +90,7 @@ class Contact {
 					$this->contact = $this->get_contact_by( 'user_id' );
 					$this->contact_id = $this->contact->ID;
 				} else {
-					return new \WP_Error( 'contact_not_found', 'A contact with this ID could not be found.' );
+					throw new \Exception('A contact with this ID could not be found.' );
 				}
 			}
 
