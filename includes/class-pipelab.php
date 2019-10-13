@@ -374,6 +374,11 @@ class Pipelab {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/functions-menu.php';
 
+		/**
+		 * The contacts list class.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-contacts-list.php';
+
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 
 			// Register the various actions and filters used throughout the admin.
