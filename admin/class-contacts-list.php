@@ -2,6 +2,8 @@
 
 namespace Pipelab;
 
+use Tinify\Exception;
+
 /**
  * The plugin contacts list class.
  *
@@ -135,6 +137,15 @@ class Contacts_List extends \WP_List_Table {
 				return $contact->get_last_name();
 			case 'type':
 				return $contact->get_type();
+			case 'owner':
+				if ( ! is_null( $item['owner_id'] ) ) {
+					try {
+						$owner = new Contact( $item['owner_id'] );
+						return $owner->get_first_name();
+					} catch( Exception $e ) {
+						// Don't display anything.
+					}
+				}
 			default:
 				return print_r( $item, true ); // Show the whole array for troubleshooting purposes.
 		}
