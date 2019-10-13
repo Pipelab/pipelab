@@ -142,15 +142,27 @@ class Admin {
 	 */
 	public function plugin_menu() {
 
-		$hook = add_menu_page(
-			'Sitepoint WP_List_Table Example',
-			'SP WP_List_Table',
-			'manage_options',
-			'wp_list_table_class',
-			'pipelab_contacts_page'
+		// The main menu.
+		$contacts = add_menu_page(
+			__( 'Pipelab', 'pipelab' ),
+			__( 'Pipelab', 'pipelab' ),
+			'view_contact',
+			'pipelab',
+			[ $this, 'display_contacts_page' ],
+			'dashicons-businessman'
 		);
 
-		add_action( "load-$hook", [ $this, 'contacts_list_screen_option' ] );
+		// The contacts sub-menu.
+		add_submenu_page(
+			'pipelab',
+			__( 'Contacts', 'pipelab' ),
+			__( 'Contacts', 'pipelab' ),
+			'view_contact',
+			'pipelab-contacts',
+			[ $this, 'display_contacts_page' ]
+		);
+
+		add_action( "load-$contacts", [ $this, 'contacts_list_screen_option' ] );
 
 	}
 
@@ -173,6 +185,20 @@ class Admin {
 		add_screen_option( $option, $args );
 
 		$this->contacts_list = new Contacts_List();
+	}
+
+	/**
+	 * Display the contacts list.
+	 *
+	 * @since 0.2.0
+	 */
+	public function display_contacts_page() {
+
+		if ( ! current_user_can( 'view_contact' ) ) {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+
+		include( 'partials/contacts-list.php' );
 	}
 
 }
