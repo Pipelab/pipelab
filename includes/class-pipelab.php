@@ -83,6 +83,14 @@ class Pipelab {
 	public $wordpress_version_required = '4.8';
 
 	/**
+	 * Holds the admin class instance.
+	 *
+	 * @since 0.2.0
+	 * @var \Pipelab\Admin
+	 */
+	public $plugin_admin;
+
+	/**
 	 * Required version of PHP.
 	 *
 	 * Follow WordPress latest requirements and require
@@ -400,10 +408,13 @@ class Pipelab {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Pipelab\Admin( $this->get_plugin_name(), $this->get_version() );
+		$this->plugin_admin = new Pipelab\Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->plugin_admin, 'enqueue_scripts' );
+
+		// Load the plugin custom pages.
+		$this->plugin_admin->load_plugin_pages();
 
 	}
 
