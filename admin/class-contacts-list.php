@@ -191,7 +191,6 @@ class Contacts_List extends \WP_List_Table {
 			'first_name' => array( 'first_name', true ),
 			'last_name' => array( 'last_name', true ),
 			'type' => array( 'type', true ),
-			'owner' => array( 'owner', true ),
 		);
 
 		return $sortable_columns;
