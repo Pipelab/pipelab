@@ -164,6 +164,16 @@ class Admin {
 
 		add_action( "load-$contacts", [ $this, 'contacts_list_screen_option' ] );
 
+		// The contacts sub-menu.
+		add_submenu_page(
+			null,
+			__( 'Contact', 'pipelab' ),
+			__( 'Contact', 'pipelab' ),
+			'view_contact',
+			'pipelab-contact',
+			[ $this, 'display_contact_details_page' ]
+		);
+
 	}
 
 	/**
@@ -199,6 +209,25 @@ class Admin {
 		}
 
 		include( 'partials/contacts-list.php' );
+	}
+
+	/**
+	 * Display the content of a contact details page.
+	 *
+	 * @since 0.2.0
+	 * @return void
+	 */
+	public function display_contact_details_page() {
+
+		if ( ! current_user_can( 'view_contact' ) ) {
+			wp_die( __( 'You do not have sufficient permissions to access this page.', 'pipelab' ) );
+		}
+
+		if ( ! isset( $_GET['contact_id'] ) ) {
+			wp_die( __( 'No contact ID was passed.', 'pipelab' ) );
+		}
+
+		include( 'partials/contact-details.php' );
 	}
 
 }
