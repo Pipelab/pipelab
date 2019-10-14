@@ -140,7 +140,7 @@ class Contact {
 	 */
 	public function get_first_name() {
 		if ( is_null( $this->first_name ) ) {
-			$this->first_name = get_user_meta( $this->user_id, 'first_name', true );
+			$this->first_name = $this->contact->first_name;
 		}
 
 		return $this->first_name;
@@ -154,7 +154,7 @@ class Contact {
 	 */
 	public function get_last_name() {
 		if ( is_null( $this->last_name ) ) {
-			$this->last_name = get_user_meta( $this->user_id, 'last_name', true );
+			$this->last_name = $this->contact->last_name;
 		}
 
 		return $this->last_name;
