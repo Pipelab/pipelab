@@ -174,4 +174,14 @@ class Contact {
 
 	}
 
+	/**
+	 * Get the contact full name.
+	 *
+	 * @since 0.2.0
+	 * @return string
+	 */
+	public function get_full_name() {
+		return $this->get_first_name() . ' ' . $this->get_last_name();
+	}
+
 }
