@@ -315,6 +315,11 @@ class Pipelab {
 	private function load_dependencies() {
 
 		/**
+		 * Load TypeRocket which is used as the MVC framework.
+		 */
+		require plugin_dir_path( dirname( __FILE__ ) ) . 'lib/typerocket/init.php';
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
